@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+<style>
+    .container{
+        margin: 10px;
+        padding: 20px;
+    }
+</style>
+
+{% block content %}
+
+    {% for message in messages %}
+            <div class="alert alert-success alert-dismissible fade show"  role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <small><sup>x</sup></small>
+                </button>
+                {{message}}
+            </div>
+    {% endfor %}
+
+    {% if all_items %}
+                {% for each in all_items %}
+
+                {% if each.completed %}
+
+                    <div class="row container" style="border: 1px solid aliceblue;font-size: 26px;font-family: sans-serif;background-color: aliceblue; padding:0.5em;">
+                        <div class="col-md-8"><strike>{{each.item}}</strike></div>
+
+
+                         <div class="col-md-4">
+                            <a class="btn btn-outline-info" href="{% url 'undone' each.id %}">Undone</a>
+                            <a class="btn btn-outline-success" href="{% url 'edit_item' each.id %}" {{each.item}}>Edit</a>
+                            <a class="btn btn-outline-danger" href="{% url 'delete' each.id %}">Delete</a>
+                         </div>
+                    </div>
+                    <br/>
+                {% else %}
+
+                    <div class="row container" style="border: 1px solid aliceblue;font-size: 26px;font-family: sans-serif;background-color: aliceblue; padding:0.5em;">
+                        <div class="col-md-8"><span>{{each.item}}</span></div>
+                         <div class="col-md-4">
+                            <a class="btn btn-outline-info" href="{% url 'done_task' each.id %}">Done</a>
+                            <a class="btn btn-outline-success" href="{% url 'edit_item' each.id %}" {{each.item}}>Edit</a>
+                            <a class="btn btn-outline-danger" href="{% url 'delete' each.id %}">Delete</a>
+                         </div>
+                    </div>
+                    <br/>
+                {% endif %}
+
+                {% endfor %}
+
+    {% endif %}
+{% endblock %}
