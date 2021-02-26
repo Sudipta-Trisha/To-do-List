@@ -3,8 +3,9 @@ from . import views as v
 
 urlpatterns = [
     path('', v.home, name="home"),
-    path('edit_item/<list_id>', v.edit_item, name="edit_item"),
-    path('done_task/<list_id>', v.done_task, name="done_task"),
-    path('undone/<list_id>', v.undone, name="undone"),
-    path('delete/<list_id>', v.delete, name="delete"),
+    path('add_item/', v.add_item, name="add_item"),
+    path('edit_item/<task_id>', v.edit_item, name="edit_item"),
+    path('done_task/<task_id>', v.done_task, name="done_task"),
+    path('undone/<task_id>', v.undone, name="undone"),
+    path('delete/<task_id>', v.delete, name="delete"),
 ]

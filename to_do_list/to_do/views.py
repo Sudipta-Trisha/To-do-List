@@ -1,57 +1,59 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import *
 from django.contrib import messages
-from django.http import HttpResponse
-
 # Create your views here.
 
 def home(request):
+    allTasks = Task.objects.all()
+    context = {'allTasks': allTasks}
+    return render(request, 'home.html', context)
+
+def add_item(request):
+    context = {'success': False}
     if request.method == 'POST':
-        form = ListForm(request.POST or None)
-
-        if form.is_valid():
-            form.save()
-            all_items = List.objects.all
-            messages.success(request, 'Item has been added to list.')
-            return redirect('/')
-    else:
-        all_items = List.objects.all
-        context = {'all_items': all_items}
-        return render(request, 'home.html', context)
-
-def edit_item(request, list_id):
-    item = List.objects.get(id=list_id)
-
-    if request.method == 'POST':
-        item = List.objects.get(id=list_id)
-        item.item = request.POST['item']
-        item.save()
+        item = request.POST['item']
+        details = request.POST['details']
+        print(item, details)
+        form = Task(item=item, details=details)
+        form.save()
+        messages.success(request, 'Item has been added to list.')
         return redirect('/')
-    context = {'item': item}
+    else:
+        allTasks = Task.objects.all()
+        context = {'allTasks': allTasks}
+        return render(request, 'add_item.html', context)
+
+def edit_item(request, task_id):
+    task = Task.objects.get(id=task_id)
+
+    if request.method == 'POST':
+        task = Task.objects.get(id=task_id)
+        task.item = request.POST['item']
+        task.details = request.POST['details']
+        task.save()
+        return redirect('/')
+    context = {'task': task}
     #messages.warning(request, 'Item has been Updated.')
     return render(request, 'edit_item.html', context)
 
-def undone(request, list_id):
-    item = List.objects.get(pk=list_id)
-    item.completed = False
-    item.save()
-    return redirect('/')
-
-def done_task(request, list_id):
-    item = List.objects.get(pk=list_id)
+def done_task(request, task_id):
+    item = Task.objects.get(pk=task_id)
     item.completed = True
     item.save()
     return redirect('/')
 
-def delete(request, list_id):
-    item = List.objects.get(pk=list_id)
+def undone(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    task.completed = False
+    task.save()
+    return redirect('/')
+
+def delete(request, task_id):
+    task = Task.objects.get(pk=task_id)
 
     if request.method == 'POST':
-        item.delete()
+        task.delete()
         messages.error(request, 'Selected item has been deleted.')
         return redirect('/')
 
     return render(request, 'delete.html')
-
-
