@@ -31,7 +31,6 @@ def add_item(request):
         return render(request, 'add_item.html', context)
 
 def edit_item(request, task_id):
-    task = Task.objects.get(id=task_id)
 
     if request.method == 'POST':
         task = Task.objects.get(id=task_id)
@@ -39,8 +38,10 @@ def edit_item(request, task_id):
         task.details = request.POST['details']
         task.save()
         return redirect('/')
+
+    task = Task.objects.get(id=task_id)
     context = {'task': task}
-    #messages.warning(request, 'Item has been Updated.')
+    # messages.warning(request, 'Item has been Updated.')
     return render(request, 'edit_item.html', context)
 
 def done_task(request, task_id):

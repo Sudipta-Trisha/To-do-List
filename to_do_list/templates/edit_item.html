@@ -2,8 +2,14 @@
 
 {% block content %}
 
+    <style>
+        .mystyle{
+            height: 100px;
+        }
+    </style>
+
     {% if task %}
-        <form method="POST" action="">
+        <form method="POST" >
             {% csrf_token %}
 
             <div class="form-group">
@@ -11,10 +17,10 @@
                 <input class="form-control" type="text" placeholder="{{task.item}}" value="{{task.item}}"  name="item">
 
                 <label class="p-1">Details</label>
-                <textarea class="form-control" type="text" placeholder="{{task.details}}" value="{{task.details}}"  name="details" rows="10" cols="30"></textarea>
+                <input class="form-control mystyle" type="text" placeholder="{{task.details}}" value="{{task.details}}" name="details">
 
                 <input type="hidden" value="{{item.completed}}" name="completed">
-                <button class="btn btn-outline-success mt-2" type="submit">Edit Item</button>
+                <button class="btn btn-outline-success mt-2" type="submit">Save</button>
             </div>
         </form>
     {% endif %}
