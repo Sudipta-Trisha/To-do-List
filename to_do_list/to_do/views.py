@@ -4,9 +4,16 @@ from django.contrib import messages
 # Create your views here.
 
 def home(request):
-    allTasks = Task.objects.all()
-    context = {'allTasks': allTasks}
-    return render(request, 'home.html', context)
+    context = {}
+    item_number = Task.objects.filter()
+    if len(item_number) > 0:
+        allTasks = Task.objects.all()
+        context = {'allTasks': allTasks}
+        return render(request, 'home.html', context)
+    else:
+        context['start'] = "Free up your mental space adding task in TO-DO List !"
+        return render(request, 'home.html', context)
+
 
 def add_item(request):
     context = {'success': False}

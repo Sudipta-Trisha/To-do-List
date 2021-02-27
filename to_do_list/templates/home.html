@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<style>
+    .mystyle{
+        font-size: 30px;
+        font-family: sans-serif;
+        margin-top: 6em;
+        padding: 0.5em;
+    }
+</style>
+
 {% for message in messages %}
             <div class="alert alert-success alert-dismissible fade show"  role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -9,8 +19,9 @@
                 {{message}}
             </div>
     {% endfor %}
-    <h2 class="text-center mb-4">Your Listed Tasks</h2>
+
   {% if allTasks %}
+    <h2 class="text-center mb-4">Your Listed Tasks</h2>
       {% for tasks in allTasks %}
             {% if tasks.completed %}
 
@@ -40,6 +51,12 @@
             {% endif %}
 
       {% endfor %}
+    {% else %}
+        <div class="container mystyle text-center">
+            <a href="{% url 'add_item' %}"><i class="fas fa-2x fa-plus-circle p-2 " style="color:#b8b6b0"></i></a>
+            </br>
+            {{start}}
+        </div>
   {% endif %}
     </tbody>
 </table>
